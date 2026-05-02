@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+
+    --primary: 160 100% 45%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222 47% 11.2%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215 25% 40%;
+
+    --accent: 180 100% 45%;
+    --accent-foreground: 222 47% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 160 100% 45%;
+
+    --radius: 1rem;
+
+    /* Custom tokens */
+    --gradient-primary: linear-gradient(135deg, #00d4ff 0%, #00e676 50%, #8cff00 100%);
+    --gradient-hero: radial-gradient(circle at top center, rgba(0, 246, 255, 0.08), transparent 80%);
+    --gradient-card: linear-gradient(135deg, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0) 100%);
+    --glass-bg: rgba(255, 255, 255, 0.8);
+    --glass-border: rgba(0, 0, 0, 0.05);
+    --shadow-neon: 0 0 50px rgba(0, 255, 136, 0.1);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    @apply bg-background;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased selection:bg-primary/30;
+    font-family: 'Inter', system-ui, sans-serif;
+    background-image:
+      radial-gradient(circle at 2px 2px, rgba(0, 0, 0, 0.05) 1px, transparent 0);
+    background-size: 32px 32px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  .glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    @apply shadow-2xl;
+  }
+
+  .text-gradient {
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% auto;
+    @apply animate-text-gradient;
+  }
+
+  .glow-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.2;
+    pointer-events: none;
+    @apply animate-glow;
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-24 lg:py-40;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .btn-primary {
+    @apply relative inline-flex items-center justify-center px-8 py-4 font-bold text-white transition-all duration-300 rounded-xl bg-primary hover:scale-[1.02] active:scale-[0.98] shadow-lg shadow-primary/20;
+  }
+
+  .btn-secondary {
+    @apply relative inline-flex items-center justify-center px-8 py-4 font-bold transition-all duration-300 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 backdrop-blur-sm;
+  }
+}
+
+@layer utilities {
+  .text-glow {
+    text-shadow: 0 0 20px rgba(0, 246, 255, 0.5);
+  }
+
+  .border-glow {
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+  }
+
+  .mask-radial-faded {
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+  }
+}
