@@ -23,31 +23,48 @@ const Contact = () => {
         setIsSubmitting(true);
 
         try {
-            // The webhook URL is now loaded from the .env file
-            const N8N_WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL;
+            const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
 
-            const response = await fetch(N8N_WEBHOOK_URL, {
+            if (!accessKey) {
+                throw new Error("Web3Forms access key is not configured.");
+            }
+
+            const payload = {
+                access_key: accessKey,
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone,
+                message: formData.message,
+                subject: `New Contact Form Submission from ${formData.name}`,
+                from_name: "Fluxo AI Studio Website",
+                botcheck: "", // honeypot spam protection
+            };
+
+            const response = await fetch("https://api.web3forms.com/submit", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    Accept: "application/json",
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(payload),
             });
 
-            if (response.ok) {
+            const result = await response.json();
+
+            if (result.success) {
                 toast({
                     title: "Message Sent!",
                     description: "Thanks for reaching out. We'll contact you within 24 hours.",
                 });
                 setFormData({ name: "", email: "", phone: "", message: "" });
             } else {
-                throw new Error("Failed to send message");
+                throw new Error(result.message || "Failed to send message");
             }
         } catch (error) {
             toast({
                 variant: "destructive",
                 title: "Error",
-                description: "Something went wrong. Please try again later.",
+                description: error instanceof Error ? error.message : "Something went wrong. Please try again later.",
             });
         } finally {
             setIsSubmitting(false);
